@@ -39,9 +39,14 @@ jobs:
         run: |
           IMAGE_TAG=$(echo $GITHUB_SHA | cut -c 1-8)
           ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NAME }}
+
           docker build -t $ECR_REGISTRY:$IMAGE_TAG -f app/Dockerfile app
+
           docker tag $ECR_REGISTRY:$IMAGE_TAG $ECR_REGISTRY:latest
 
+          docker push $ECR_REGISTRY:$IMAGE_TAG
+          docker push $ECR_REGISTRY:latest
+          
           echo "image-uri=$ECR_REGISTRY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
       # Push da imagem para o ECR
