@@ -5,7 +5,7 @@
     "family": "teddy-task", 
     "containerDefinitions": [
         {
-            "name": "teddy-container", 
+            "name": "teddy-app-container", 
             "image": "", 
             "essential": true,
             "portMappings": [
