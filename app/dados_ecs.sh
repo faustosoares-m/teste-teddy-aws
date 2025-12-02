@@ -1,12 +1,55 @@
-# Pega o ARN da Task
+#!/bin/bash
+
+# Define o arquivo para armazenar a cor única da Task
+COLOR_FILE="/tmp/task_color.txt"
+
+# --- 1. Geração de Cor Única ---
+if [ ! -f $COLOR_FILE ]; then
+    # Gera uma cor hexadecimal aleatória (ex: #A3B5C7)
+    RANDOM_COLOR=$(head /dev/urandom | tr -dc A-F0-9 | head -c 6)
+    echo "#$RANDOM_COLOR" > $COLOR_FILE
+fi
+TASK_COLOR=$(cat $COLOR_FILE)
+
+# --- 2. Coleta de Metadados ---
 TASK_ARN=$(curl -s $ECS_CONTAINER_METADATA_URI_V4/task | jq -r '.TaskARN')
-# Pega o ID do Container
 CONTAINER_ID=$(hostname)
 
-# Gera o conteúdo HTML
-echo "<h1>Bem-vindo!</h1>" > /usr/share/nginx/html/index.html
-echo "<h2>Servido por: $CONTAINER_ID</h2>" >> /usr/share/nginx/html/index.html
-echo "<p>Task ARN (AWS ID Único): <b>$TASK_ARN</b></p>" >> /usr/share/nginx/html/index.html
+# --- 3. Geração do HTML Estilizado ---
+cat << EOF > /usr/share/nginx/html/index.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teste de ALB</title>
+    <style>
+        body {
+            background-color: $TASK_COLOR; /* Cor ÚNICA por servidor! */
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        h1 { font-size: 3em; }
+        p { font-size: 1.5em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Servidor Ativo: MUDOU DE COR!</h1>
+        <p><strong>Cor do Servidor:</strong> $TASK_COLOR</p>
+        <hr>
+        <p><strong>Container ID:</strong> $CONTAINER_ID</p>
+        <p><strong>Task ARN (Identificador ECS):</strong><br><code>$TASK_ARN</code></p>
+    </div>
+</body>
+</html>
+EOF
 
 # Inicia o Nginx
 nginx -g 'daemon off;'
