@@ -46,14 +46,19 @@ jobs:
 
           docker push $ECR_REGISTRY:$IMAGE_TAG
           docker push $ECR_REGISTRY:latest
-          
+
           echo "image-uri=$ECR_REGISTRY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
       # Push da imagem para o ECR
       - name: Push para o ECR
         run: |
-          docker push ${{ env.ECR_IMAGE }}
-          docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NAME }}:latest
+          IMAGE_URI=${{ steps.build-image.outputs.image-uri }}
+
+          docker push $IMAGE_URI
+
+          LATEST_URI=$(echo $IMAGE_URI | sed 's/:[a-f0-9]*$/:latest/')
+          docker push $LATEST_URI
+
 
       - name: Task Definition
         id: task-def
