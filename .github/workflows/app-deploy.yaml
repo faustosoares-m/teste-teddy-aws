@@ -13,7 +13,7 @@ jobs:
       ECS_CLUSTER_NAME: teddy-cluster # Nome do Cluster ECS
       ECS_SERVICE_NAME: teddy-service # Nome do Serviço ECS
       ECS_TASK_DEFINITION_FAMILY: teddy-task # Nome da Família da Task Definition
-      CONTAINER_NAME_IN_TASK: teddy-app-container # Nome do Container dentro da Task
+      CONTAINER_NAME_IN_TASK: teddy-container # Nome do Container dentro da Task
 
     steps:
       - name: Checkout do Código
@@ -66,7 +66,7 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: infra/task-definition.json
-          container-name: teddy-app-container
+          container-name: teddy-container
           image: ${{ steps.build-image.outputs.image-uri }}
 
       # Faz o Deploy do Serviço no Fargate
