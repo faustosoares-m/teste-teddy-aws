@@ -53,7 +53,7 @@ jobs:
           docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NAME }}:latest
 
       - name: Task Definition
-        id: render
+        id: task-def
 
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
@@ -63,8 +63,9 @@ jobs:
 
       # Faz o Deploy do Serviço no Fargate
       - name: Deploy Amazon ECS Service
-        uses: aws-actions/amazon-ecs-deploy-service@v1
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
           cluster: teddy-cluster
           service: teddy-service
-          task-definition: ${{ steps.render.outputs.task-definition }}
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          wait-for-service-stability: true
