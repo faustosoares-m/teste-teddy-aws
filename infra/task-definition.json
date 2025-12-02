@@ -29,6 +29,6 @@
     "networkMode": "awsvpc",
     "memory": "3072", 
     "cpu": "1024", 
-    "executionRoleArn": "arn:aws:iam::123456789012:role/teddy-ecs-execution-role", 
-    "taskRoleArn": "arn:aws:iam::123456789012:role/teddy-ecs-task-role"
+    "executionRoleArn": "arn:aws:iam::917003953613:role/teddy-ecs-execution-role", 
+    "taskRoleArn": "arn:aws:iam::917003953613:role/teddy-ecs-execution-role"
 }
