@@ -1,0 +1,34 @@
+{
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "family": "teddy-task", 
+    "containerDefinitions": [
+        {
+            "name": "teddy-app-container", 
+            "image": "", 
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/teddy", 
+                    "awslogs-region": "us-east-1", 
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
+        }
+    ],
+    "volumes": [],
+    "networkMode": "awsvpc",
+    "memory": "3072", 
+    "cpu": "1024", 
+    "executionRoleArn": "arn:aws:iam::123456789012:role/teddy-ecs-execution-role", 
+    "taskRoleArn": "arn:aws:iam::123456789012:role/teddy-ecs-task-role"
+}

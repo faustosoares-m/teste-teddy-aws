@@ -55,16 +55,16 @@ jobs:
       - name: Task Definition
         id: render-task-def
 
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        uses: aws-actions/amazon-ecs-render-task-definition@v4
         with:
-          task-definition: ecs-task-definition.json 
-          container-name: ${{ env.CONTAINER_NAME_IN_TASK }}
-          image: ${{ env.ECR_IMAGE }}
+          task-definition: infra/task-definition.json
+          container-name: teddy-app-container
+          image: ${{ steps.build-image.outputs.image-uri }}
 
-        # Deploy no ECS
-      - name: Deploy no ECS Service Fargate
-        uses: aws-actions/amazon-ecs-deploy-task@v1
+      # Faz o Deploy do Serviço no Fargate
+      - name: Deploy Amazon ECS Service
+        uses: aws-actions/amazon-ecs-deploy-service@v1
         with:
-          service: ${{ env.ECS_SERVICE_NAME }}
-          cluster: ${{ env.ECS_CLUSTER_NAME }}
-          task-definition: ${{ steps.render-task-def.outputs.task-definition }}
+          cluster: teddy-cluster
+          service: teddy-service
+          task-definition: ${{ steps.render.outputs.task-definition }}
