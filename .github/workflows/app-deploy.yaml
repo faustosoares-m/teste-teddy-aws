@@ -55,7 +55,7 @@ jobs:
       - name: Task Definition
         id: render-task-def
 
-        uses: aws-actions/amazon-ecs-render-task-definition@v4
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: infra/task-definition.json
           container-name: teddy-app-container
