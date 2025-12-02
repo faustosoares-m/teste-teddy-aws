@@ -1,0 +1,70 @@
+name: CI/CD APP (Build e Deploy ECS Fargate)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: us-east-1
+      ECR_REPOSITORY_NAME: teddy-app # Nome do Repositório ECR
+      ECS_CLUSTER_NAME: teddy-cluster # Nome do Cluster ECS
+      ECS_SERVICE_NAME: teddy-service # Nome do Serviço ECS
+      ECS_TASK_DEFINITION_FAMILY: teddy-task # Nome da Família da Task Definition
+      CONTAINER_NAME_IN_TASK: teddy-container # Nome do Container dentro da Task
+
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v4
+
+      # Configurar Credenciais AWS
+      - name: Configurar Credenciais AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      # Login no Amazon ECR
+      - name: Login no ECR
+        uses: aws-actions/amazon-ecr-login@v2
+        id: login-ecr
+      
+      # Build e Tag da imagem Docker
+      - name: Build e Tag da Imagem Docker
+        id: build-image
+        run: |
+          # Usa o SHA do commit para garantir uma tag única
+          IMAGE_TAG=$(echo $GITHUB_SHA | cut -c 1-8)
+          ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NAME }}
+          
+          docker build -t $ECR_REGISTRY:$IMAGE_TAG .
+          docker tag $ECR_REGISTRY:$IMAGE_TAG $ECR_REGISTRY:latest
+
+          echo "ECR_IMAGE=$ECR_REGISTRY:$IMAGE_TAG" >> $GITHUB_ENV
+      
+      # Push da imagem para o ECR
+      - name: Push para o ECR
+        run: |
+          docker push ${{ env.ECR_IMAGE }}
+          docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NAME }}:latest
+
+      - name: Task Definition
+        id: render-task-def
+
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ecs-task-definition.json 
+          container-name: ${{ env.CONTAINER_NAME_IN_TASK }}
+          image: ${{ env.ECR_IMAGE }}
+
+        # Deploy no ECS
+      - name: Deploy no ECS Service Fargate
+        uses: aws-actions/amazon-ecs-deploy-task@v1
+        with:
+          service: ${{ env.ECS_SERVICE_NAME }}
+          cluster: ${{ env.ECS_CLUSTER_NAME }}
+          task-definition: ${{ steps.render-task-def.outputs.task-definition }}
