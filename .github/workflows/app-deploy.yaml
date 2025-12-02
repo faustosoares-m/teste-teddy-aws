@@ -42,7 +42,7 @@ jobs:
           docker build -t $ECR_REGISTRY:$IMAGE_TAG -f app/Dockerfile app
           docker tag $ECR_REGISTRY:$IMAGE_TAG $ECR_REGISTRY:latest
 
-          echo "ECR_IMAGE=$ECR_REGISTRY:$IMAGE_TAG" >> $GITHUB_ENV
+          echo "image-uri=$ECR_REGISTRY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
       # Push da imagem para o ECR
       - name: Push para o ECR
