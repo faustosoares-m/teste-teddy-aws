@@ -41,10 +41,8 @@ cat << EOF > /usr/share/nginx/html/index.html
 </head>
 <body>
     <div class="container">
-        <h1>🚀 Servidor Ativo: MUDOU DE COR!</h1>
-        <p><strong>Cor do Servidor:</strong> $TASK_COLOR</p>
+        <h1> Servidor Ativo: $CONTAINER_ID</h1>
         <hr>
-        <p><strong>Container ID:</strong> $CONTAINER_ID</p>
         <p><strong>Task ARN (Identificador ECS):</strong><br><code>$TASK_ARN</code></p>
     </div>
 </body>
