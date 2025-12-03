@@ -36,7 +36,7 @@ resource "aws_lb_target_group" "tg" {
     path = "/"
     protocol = "HTTP"
     matcher = "200"
-    interval = 30
+    interval = 10
     timeout = 5
     healthy_threshold = 2
   }
@@ -111,6 +111,14 @@ resource "aws_ecs_service" "service" {
     subnets         = var.private_subnet_ids 
     security_groups = [var.security_group_id]
     assign_public_ip = false
+  }
+
+  deployment_maximum_percent         = 200
+  deployment_minimum_healthy_percent = 50
+
+  deployment_circuit_breaker {
+    enable   = true
+    rollback = true
   }
 
   depends_on = [
