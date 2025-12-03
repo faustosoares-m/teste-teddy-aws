@@ -7,7 +7,7 @@ resource "aws_cloudwatch_metric_alarm" "cluster_cpu_utilization" {
   namespace                 = "AWS/ECS"
   period                    = 60 # segundos
   statistic                 = "Average"
-  threshold                 = 1.5 # Acima de 80% de CPU
+  threshold                 = 1.5 # Acima de 10% de CPU que foi o que meu app consegue atigir, configure conforme necessário
   alarm_description         = "Alerta se a utilização média da CPU do cluster for alta."
   unit                      = "Percent"
   
