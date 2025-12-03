@@ -2,7 +2,7 @@
 resource "aws_cloudwatch_metric_alarm" "cluster_cpu_utilization" {
   alarm_name                = "teddy-ecs-high-cpu-alarm"
   comparison_operator       = "GreaterThanThreshold"
-  evaluation_periods        = 5
+  evaluation_periods        = 1
   metric_name               = "CPUUtilization"
   namespace                 = "AWS/ECS"
   period                    = 60 # segundos
