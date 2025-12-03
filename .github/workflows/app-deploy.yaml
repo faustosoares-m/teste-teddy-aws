@@ -76,4 +76,5 @@ jobs:
           cluster: teddy-cluster
           service: teddy-service
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          wait-for-service-stability: true
+          # Não aguarda estabilidade completa para reduzir o tempo total do pipeline
+          wait-for-service-stability: false
