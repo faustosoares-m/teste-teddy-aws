@@ -2,7 +2,7 @@
 # IAM Role para EC2
 
 resource "aws_iam_role" "ec2_role" {
-  name = "demo-app-new-relic-ec2-role"
+  name = "teddy-ec2-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -19,7 +19,7 @@ resource "aws_iam_role" "ec2_role" {
 }
 
 resource "aws_iam_instance_profile" "ec2_profile" {
-  name = "demo-app-new-relic-ec2-instance-profile"
+  name = "teddy-ec2-instance-profile"
   role = aws_iam_role.ec2_role.name
 }
 
@@ -27,7 +27,7 @@ resource "aws_iam_instance_profile" "ec2_profile" {
 # IAM Role para execução ECS
 
 resource "aws_iam_role" "ecs_execution_role" {
-  name = "demo-app-new-relic-ecs-execution-role"
+  name = "teddy-ecs-execution-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -52,7 +52,7 @@ resource "aws_iam_role_policy_attachment" "ecs_execution_AmazonECSTaskExecutionR
 # IAM Role para ECS
 
 resource "aws_iam_role" "ecs_task_role" {
-  name = "demo-app-new-relic-ecs-task-role"
+  name = "teddy-ecs-task-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"

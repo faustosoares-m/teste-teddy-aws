@@ -27,6 +27,6 @@ resource "aws_instance" "ec2" {
   EOF
 
   tags = {
-    Name = "demo-app-new-relic-ec2"
+    Name = "teddy-ec2"
   }
 }

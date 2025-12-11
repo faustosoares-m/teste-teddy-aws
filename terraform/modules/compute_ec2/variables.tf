@@ -20,6 +20,6 @@ variable "instance_type" {
 }
 
 variable "key_name" {
-  description = "demo-app-new-relic-key"
+  description = "teddy-key"
   type        = string
 }

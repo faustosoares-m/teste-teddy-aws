@@ -2,10 +2,10 @@
     "requiresCompatibilities": [
         "FARGATE"
     ],
-    "family": "demo-app-new-relic-task", 
+    "family": "teddy-task", 
     "containerDefinitions": [
         {
-            "name": "demo-app-new-relic-container", 
+            "name": "teddy-container", 
             "image": "", 
             "essential": true,
             "portMappings": [
@@ -18,7 +18,7 @@
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
-                    "awslogs-group": "/ecs/demo-app-new-relic", 
+                    "awslogs-group": "/ecs/teddy", 
                     "awslogs-region": "us-east-1", 
                     "awslogs-stream-prefix": "ecs"
                 }
@@ -29,6 +29,6 @@
     "networkMode": "awsvpc",
     "memory": "3072", 
     "cpu": "1024", 
-    "executionRoleArn": "arn:aws:iam::917003953613:role/demo-app-new-relic-ecs-execution-role", 
-    "taskRoleArn": "arn:aws:iam::917003953613:role/demo-app-new-relic-ecs-execution-role"
+    "executionRoleArn": "arn:aws:iam::917003953613:role/teddy-ecs-execution-role", 
+    "taskRoleArn": "arn:aws:iam::917003953613:role/teddy-ecs-execution-role"
 }

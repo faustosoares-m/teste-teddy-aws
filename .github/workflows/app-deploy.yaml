@@ -9,11 +9,11 @@ jobs:
 
     env:
       AWS_REGION: us-east-1
-      ECR_REPOSITORY_NAME: demo-app-new-relic-app # Nome do Repositório ECR
-      ECS_CLUSTER_NAME: demo-app-new-relic-cluster # Nome do Cluster ECS
-      ECS_SERVICE_NAME: demo-app-new-relic-service # Nome do Serviço ECS
-      ECS_TASK_DEFINITION_FAMILY: demo-app-new-relic-task # Nome da Família da Task Definition
-      CONTAINER_NAME_IN_TASK: demo-app-new-relic-container # Nome do Container dentro da Task
+      ECR_REPOSITORY_NAME: teddy-app # Nome do Repositório ECR
+      ECS_CLUSTER_NAME: teddy-cluster # Nome do Cluster ECS
+      ECS_SERVICE_NAME: teddy-service # Nome do Serviço ECS
+      ECS_TASK_DEFINITION_FAMILY: teddy-task # Nome da Família da Task Definition
+      CONTAINER_NAME_IN_TASK: teddy-container # Nome do Container dentro da Task
 
     steps:
       - name: Checkout do Código
@@ -66,15 +66,15 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: infra/task-definition.json
-          container-name: demo-app-new-relic-container
+          container-name: teddy-container
           image: ${{ steps.build-image.outputs.image-uri }}
 
       # Faz o Deploy do Serviço no Fargate
       - name: Deploy Amazon ECS Service
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
-          cluster: demo-app-new-relic-cluster
-          service: demo-app-new-relic-service
+          cluster: teddy-cluster
+          service: teddy-service
           task-definition: ${{ steps.task-def.outputs.task-definition }}
           # Não aguarda estabilidade completa para reduzir o tempo total do pipeline
           wait-for-service-stability: false

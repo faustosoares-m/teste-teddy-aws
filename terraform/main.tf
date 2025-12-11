@@ -13,7 +13,7 @@ module "iam" {
 
 module "ecr" {
   source = "./modules/ecr"
-  name   = "demo-app-new-relic-app"
+  name   = "teddy-app"
 }
 
 module "monitoring" {
@@ -42,6 +42,6 @@ module "compute_ec2" {
   subnet_id        = module.network.public_subnet_ids[0] # Usa a primeira subnet pública para o EC2 de teste
   security_group_id = module.security.security_group_id
   instance_profile = module.iam.ec2_instance_profile
-  key_name         = "demo-app-new-relic-key"
+  key_name         = "teddy-key"
 }
 */

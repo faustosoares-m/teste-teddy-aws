@@ -1,4 +1,4 @@
-# Teste demo-app-new-relic AWS
+# Teste Teddy AWS
 
 Infraestrutura e app simples para teste: VPC completa, ECS Fargate atrás de ALB, repositório ECR e CI/CD via GitHub Actions.
 
