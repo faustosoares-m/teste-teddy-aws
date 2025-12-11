@@ -1,8 +1,20 @@
-FROM nginx:alpine
+FROM python:3.11-slim
 
-RUN apk update && apk add --no-cache curl jq bash
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    NEW_RELIC_CONFIG_FILE=/app/newrelic.ini
 
-COPY dados_ecs.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/dados_ecs.sh
+WORKDIR /app
 
-ENTRYPOINT ["/usr/local/bin/dados_ecs.sh"]
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends build-essential libpq-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+EXPOSE 8000
+
+CMD ["newrelic-admin", "run-program", "gunicorn", "--bind", "0.0.0.0:8000", "app:app"]

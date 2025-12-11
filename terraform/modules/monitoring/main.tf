@@ -1,6 +1,6 @@
 # Alarme de CPU para o Cluster ECS (Exemplo de monitoramento mínimo)
 resource "aws_cloudwatch_metric_alarm" "cluster_cpu_utilization" {
-  alarm_name                = "teddy-ecs-high-cpu-alarm"
+  alarm_name                = "demo-app-new-relic-ecs-high-cpu-alarm"
   comparison_operator       = "GreaterThanThreshold"
   evaluation_periods        = 1
   metric_name               = "CPUUtilization"
@@ -13,6 +13,6 @@ resource "aws_cloudwatch_metric_alarm" "cluster_cpu_utilization" {
   
   dimensions = {
     ClusterName = var.cluster_name
-    ServiceName = "teddy-service"
+    ServiceName = "demo-app-new-relic-service"
   }
 }

@@ -4,10 +4,10 @@
 - Diagrama: `docs/desenho.png`
 - VPC `10.0.0.0/16` com 2 subnets públicas (ALB/NAT) e 2 privadas (tasks ECS), IGW e NAT Gateway.
 - Security Group único liberando SSH:22 e HTTP:80 para `0.0.0.0/0` (aberto por ser teste).
-- ECR: repositório `teddy-app` com scan on push e delete forçado.
-- ECS Fargate: cluster `teddy-cluster`, serviço `teddy-service` com 2 tasks atrás de ALB público (`teddy-alb`) e target group HTTP:80.
-- Logs: CloudWatch Log Group `/ecs/teddy`.
-- IAM: roles separadas para execução ECS (`teddy-ecs-execution-role`) e task role (`teddy-ecs-task-role`); role/perfil EC2 para o módulo opcional.
+- ECR: repositório `demo-app-new-relic-app` com scan on push e delete forçado.
+- ECS Fargate: cluster `demo-app-new-relic-cluster`, serviço `demo-app-new-relic-service` com 2 tasks atrás de ALB público (`demo-app-new-relic-alb`) e target group HTTP:80.
+- Logs: CloudWatch Log Group `/ecs/demo-app-new-relic`.
+- IAM: roles separadas para execução ECS (`demo-app-new-relic-ecs-execution-role`) e task role (`demo-app-new-relic-ecs-task-role`); role/perfil EC2 para o módulo opcional.
 - Módulo EC2 opcional (comentado) para criar instância Amazon Linux com Docker.
 
 ## Decisões e boas práticas
@@ -22,4 +22,4 @@
 - Secrets necessários: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`.
 
 ## Monitoramento
-- Alarme CloudWatch `teddy-ecs-high-cpu-alarm` para CPU >80% (namespace `AWS/ECS`, dimensão `ClusterName`). Logs no CloudWatch Logs. Circuit breaker de deployment habilitado.
+- Alarme CloudWatch `demo-app-new-relic-ecs-high-cpu-alarm` para CPU >80% (namespace `AWS/ECS`, dimensão `ClusterName`). Logs no CloudWatch Logs. Circuit breaker de deployment habilitado.

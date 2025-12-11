@@ -8,7 +8,7 @@ resource "aws_ecs_cluster" "cluster" {
 }
 
 resource "aws_cloudwatch_log_group" "log_group" {
-  name              = "/ecs/teddy"
+  name              = "/ecs/demo-app-new-relic"
   retention_in_days = 7
 }
 
@@ -16,7 +16,7 @@ resource "aws_cloudwatch_log_group" "log_group" {
 # 2. Application Load Balancer
 
 resource "aws_lb" "alb" {
-  name               = "teddy-alb"
+  name               = "demo-app-new-relic-alb"
   internal           = false
   load_balancer_type = "application"
 
@@ -26,7 +26,7 @@ resource "aws_lb" "alb" {
 }
 
 resource "aws_lb_target_group" "tg" {
-  name        = "teddy-tg"
+  name        = "demo-app-new-relic-tg"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
@@ -57,7 +57,7 @@ resource "aws_lb_listener" "listener" {
 # 3. ECS Task Definition
 
 resource "aws_ecs_task_definition" "task" {
-  family                   = "teddy-task"
+  family                   = "demo-app-new-relic-task"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "256"
@@ -68,7 +68,7 @@ resource "aws_ecs_task_definition" "task" {
 
   container_definitions = jsonencode([
     {
-      name      = "teddy-container"
+      name      = "demo-app-new-relic-container"
       image     = var.ecr_image_url
       essential = true
       portMappings = [
@@ -102,7 +102,7 @@ resource "aws_ecs_service" "service" {
   # Integração com o Load Balancer
   load_balancer {
     target_group_arn = aws_lb_target_group.tg.arn
-    container_name   = "teddy-container"
+    container_name   = "demo-app-new-relic-container"
     container_port   = 80
   }
 

@@ -1,5 +1,5 @@
 resource "aws_security_group" "main" {
-  name        = "teddy-sg"
+  name        = "demo-app-new-relic-sg"
   description = "SG para EC2 e ECS"
   vpc_id      = var.vpc_id
 
@@ -28,6 +28,6 @@ resource "aws_security_group" "main" {
   }
 
   tags = {
-    Name = "teddy-sg"
+    Name = "demo-app-new-relic-sg"
   }
 }

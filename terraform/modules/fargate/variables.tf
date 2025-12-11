@@ -1,13 +1,13 @@
 variable "cluster_name" {
   description = "Nome do Cluster ECS"
   type        = string
-  default     = "teddy-cluster"
+  default     = "demo-app-new-relic-cluster"
 }
 
 variable "service_name" {
   description = "Nome do Serviço ECS"
   type        = string
-  default     = "teddy-service"
+  default     = "demo-app-new-relic-service"
 }
 
 variable "vpc_id" {

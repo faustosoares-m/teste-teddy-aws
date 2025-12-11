@@ -7,7 +7,7 @@ variable "aws_region" {
 /*
 variable "profile" {
   type        = string
-  default     = "teddy"
-  description = "Perfil IAM Teddy"
+  default     = "demo-app-new-relic"
+  description = "Perfil IAM demo-app-new-relic"
 }
 */
